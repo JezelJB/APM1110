@@ -1,0 +1,62 @@
+---
+title: "APM1110 - FA3"
+author: "Betita, Jezel"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+  - \usepackage{amssymb}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[GitHub Link](https://github.com/JezelJB/APM1110/tree/main/FAs/FA3)
+
+**5. A geospatial analysis system has four sensors supplying images. The percentage of images supplied by each sensor and the percentage of images relevant to a query are shown in the following table. What is the overall percentage of relevant images?**
+
+```{r}
+GAS = data.frame(
+  "Sensor" = c(1, 2, 3, 4),
+  Images.Supplied = c(15, 20, 25, 40),
+  Relevant.Images = c(50, 60, 80, 85)
+)
+
+GAS
+
+Total <- (GAS$Images.Supplied * GAS$Relevant.Images) / 100
+GAS <- cbind(GAS, Total)
+
+Overall.Percentage <- list("Overall.Percentage", 100, NA, sum(Total))
+GAS <- rbind(GAS, Overall.Percentage)
+
+GAS
+```
+
+**6. A fair coin is tossed twice. Let E1 be the event that both tosses have the same outcome, that is, E1 = (HH, TT). Let E2 be the even that the first toss is a head, that is, E2 = (HH, HT). Let E3 be the event that the second toss is a head, that is, E3 = (TH, HH). Show that E1, E2, and E3 are pairwise independent but not mutually independent.**
+
+```{r}
+library(MASS)
+
+expand.grid(Toss1 = c("H", "T"), Toss2 = c("H", "T"))
+
+E1 <- fractions(2/4)
+E2 <- fractions(2/4)
+E3 <- fractions(2/4)
+
+print(paste("P(E1) = P({HH, TT}) =", E1))
+print(paste("P(E2) = P({HH, HT}) =", E2))
+print(paste("P(E3) = P({TH, HH}) =", E3))
+
+pairw <- E1 * E2 * E3
+mut_ind <- fractions(1/4)
+
+print(paste("P(E1) × P(E2) × P(E3) =", pairw))
+
+print(paste("P(E1 ∩ E2 ∩ E3) = P({HH})", mut_ind))
+
+# P(E1) × P(E2) × P(E3) != P(E1 ∩ E2 ∩ E3)
+# E1, E2, and E3 are Pairwise Independent but NOT Mutually Independent.
+```
