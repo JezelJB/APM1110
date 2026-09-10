@@ -1,0 +1,76 @@
+---
+title: "APM1110 - FA4"
+author: "Betita, Jezel"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[GitHub Link](https://github.com/JezelJB/APM1110/tree/main/FAs/FA4)
+
+**2.  A binary communication channel carries data as one of two sets of signals denoted by 0 and 1. Owing to noise, a transmitted 0 is sometimes received as a 1, and a transmitted 1 is sometimes received as a 0. For a given channel, it can be assumed that a transmitted 0 is correctly received with probability 0.95, and a transmitted 1 is correctly received with probability 0.75. Also, 70% of all messages are transmitted as a 0. If a signal is sent, determine the probability that:**
+
+**(a) a 1 was received;**
+
+```{r}
+r0t0 <- 0.95
+r1t0 <- 1 - r0t0
+
+r1t1 <- 0.75
+
+t0 <- 0.70
+t1 <- 1 - t0
+
+pr1 <- (t1 * r1t1) + (t0 * r1t0)
+pr1
+```
+
+**(b) a 1 was transmitted given than a 1 was received.**
+
+```{r}
+ptr1 <- (t1 * r1t1) / pr1
+ptr1
+```
+
+**7.  There are three employees working at an IT company: Jane, Amy, and Ava, doing 10%, 30%, and 60% of the programming, respectively. 8% of Jane’s work, 5% of Amy’s work, and just 1% of Ava‘s work is in error. What is the overall percentage of error? If a program is found with an error, who is the most likely person to have written it?**
+
+```{r}
+library(formattable)
+
+# Jane's Work & Error
+j <- 0.10
+ej <- 0.08
+
+# Amy's Work & Error
+am <- 0.30
+eam <- 0.05
+
+# Ava's Work & Error
+av <- 0.60
+eav <- 0.01
+
+# Overall Percentage of Error
+
+pe <- (j * ej) + (am * eam) + (av * eav)
+percent(pe)
+
+# Program with an Error written by:
+
+# Jane
+pje <- (j * ej) / pe
+
+# Amy
+pame <- (am * eam) / pe
+
+# Ava
+pave <- (av * eav) / pe
+
+prog_er <- c(pje, pame, pave)
+work_er <- max(prog_er)
+percent(work_er)
+```
+
+**A program error was most likely written by Amy.**
