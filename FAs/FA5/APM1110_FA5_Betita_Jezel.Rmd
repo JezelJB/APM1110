@@ -1,0 +1,175 @@
+---
+title: "APM1110 - FA5"
+author: "Betita, Jezel"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+  - \usepackage{amssymb}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[GitHub Link](https://github.com/JezelJB/APM1110/tree/main/FAs/FA5)
+
+**1. (Discrete Random Variables)**
+**A discrete random variable X has the following probability mass function (PMF):**
+
+$$
+P(X=x)=
+\begin{cases}
+k(2x+1), & x=1,2,3,4\\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+**a) Find the value of constant k.**
+
+```{r}
+
+x <- 1:4
+
+k <- round(1 / sum(2*x + 1), 4)
+k
+
+```
+
+**b) Compute the expected value E[X] and the variance Var(X).**
+
+```{r}
+
+pmf <- round(k * (2*x + 1), 4)
+pmf
+
+ex <- round(sum(x * pmf), 4)
+ex
+
+varx <- round(sum((x - ex)^2 * pmf), 4)
+varx
+
+```
+
+**c) Calculate P(X >= 3).**
+
+```{r}
+
+sum(pmf[x >= 3])
+
+```
+
+**2. (Binomial Distribution)**
+**An IT system detects that roughly 8% of incoming external requests are malicious. In a random sample of 20 requests:**
+
+```{r}
+
+n <- 20
+p <- 0.08
+
+```
+
+**a) What is the probability that exactly 2 requests are malicious?**
+
+```{r}
+
+two <- round(dbinom(2, size = n, prob = p), 4)
+two
+
+```
+
+**b) What is the probability that at least 3 requests are malicious?**
+
+```{r}
+
+thr <- round(1 - pbinom(2, size = n, prob = p), 4)
+thr
+
+```
+
+**c) Determine the mean and standard deviation of the number of malicious requests.**
+
+```{r}
+
+n * p
+
+sd <- round(sqrt(n * p * (1 - p)), 4)
+sd
+
+```
+
+**3. (Poisson Distribution)**
+**A server receives and average of 5.4 web traffic hits per minute. Assuming the arrival rate follows a Poisson process:**
+
+```{r}
+
+lambda1 <- 4.5
+
+```
+
+**a) Find the probability of receiving exactly 6 hits in a given minute.**
+
+```{r}
+
+six <- round(dpois(6, lambda1), 4)
+six
+
+```
+
+**b) Find the probability of receiving at most 2 hits in a given minute.**
+
+```{r}
+
+tw <- round(1 - ppois(1, lambda1), 4)
+tw
+
+```
+
+**c) Calculate the probability of receiving more than 10 hits in a 2-minute interval.**
+
+```{r}
+
+lambda2 <- 4.5 * 2
+
+tentw <- round(1 - ppois(10, lambda2), 4)
+tentw
+
+```
+
+**4. (Continuous Probability & Normal Distribution)**
+**The processing time for a complex database query is normally distributed with a mean μ = 120 milliseconds and a standard deviation σ = 15 milliseconds.**
+
+```{r}
+
+mu <- 120
+sigma <- 15
+
+```
+
+**a) What proportion of queries take longer than 135 milliseconds to process?**
+
+```{r}
+
+otf <- round(1 - pnorm(135, mean = mu, sd = sigma), 4)
+otf
+
+```
+
+**b) Find the probability that a randomly chosen query takes between 100 and 130 milliseconds.**
+
+```{r}
+
+oot <- round(pnorm(130, mean = mu, sd = sigma) - pnorm(100, mean = mu, sd = sigma), 4)
+oot
+
+```
+
+**c) Find the 95th percentile of query processing times.**
+
+```{r}
+
+perc <- round(qnorm(0.95, mean = mu, sd = sigma), 4)
+perc
+
+```
