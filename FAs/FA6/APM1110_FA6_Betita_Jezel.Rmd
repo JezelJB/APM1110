@@ -1,0 +1,109 @@
+---
+title: "APM1110 - FA6"
+author: "Betita, Jezel"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**I. Geometric Distribution**
+
+Provide an R code for the geometric disrtibution. The geometric distribution is a probability distribution that models the number of trials required to achieve the first success in a sequence of Bernoulli trials, where each trial has a constant probability of success.
+
+**1. Set the probability to p <- 0.2**
+
+```{r}
+
+p <- 0.2
+
+```
+
+**2. Generate 1000 random variables from the geometric distribution.**
+
+```{r}
+
+x <- rgeom(1000, prob = p) + 1
+
+```
+
+**3. Calculate basic statistics:**
+
+```{r}
+
+mean_x <- mean(x)
+var_x <- var(x)
+sd_x <- sd(x)
+
+```
+
+**4. Print the results in item 3 with the following output format:**
+
+```{r}
+
+cat("Number of trials required to achieve first success:", x[1], "\n")
+cat("Mean:", round(mean_x, 2), "\n")
+cat("Variance:", round(var_x, 2), "\n")
+cat("Standard deviation:", round(sd_x, 2), "\n")
+
+```
+
+**5. Plot the histogram of the results.**
+
+```{r}
+
+hist(x,
+     main = "Geometric Distribution",
+     xlab = "Number of Trials (until first success)",
+     ylab = "Frequency",
+     col = "lightpink")
+
+cat("Number of trials required to achieve first success:", x[1], "\n")
+
+```
+
+
+
+**II. Hypergeometric Distribution**
+
+Consider a plant manufacturing IC chips which 10% are expected to be defective. The chips are packed in boxes for export. Before transportation, a sample is drawn from each box. Estimate the probability that the sample contains more than 10% defectives, when:
+
+**1. A sample of 10 is selected from a box of 40;**
+
+```{r}
+
+samp <- 10
+
+total1 <- 40
+defec1 <- 4
+
+num1 <- 1 - phyper(1, defec1, total1 - defec1, samp)
+
+cat("Probability that sample contains more than 10% defectives (from a box of 40):",
+    round(num1, 2), "\n")
+
+```
+
+The possibility of the sample that includes more than 10% defected chips is 0.26. Which means, there is a 26% chance that more than 1 chip is defective among the 10 chips selected.
+
+
+**2. A sample of 10 is selected from a box of 5000.**
+
+```{r}
+
+total2 <- 5000
+defec2 <- 500
+
+num2 <- 1 - phyper(1, defec2, total2 - defec2, samp)
+
+cat("Probability that sample contains more than 10% defectives (from a box of 5000):",
+    round(num2, 2), "\n")
+
+```
+
+The probability is 0.26. There is a 26% chance that more than 1 chip is defective among the 10 chips selected.
+
+
+The probabilities of the two boxes are similar because both contains 10% defective rate.
