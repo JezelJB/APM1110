@@ -1,0 +1,290 @@
+---
+title: "README"
+author: "Betita, Jezel"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Formative Assessment 7: Campus-Related Statistical Analysis**
+
+**Part 1: Campus-Related Issues Using Exponential Distribution**
+
+**Scenario**
+
+The selected campus-related problem is the waiting time between printing
+services at printing services located at the 2nd floor library. Rather than
+measuring the time between customers arriving, the observation focused on
+the time interval between one printing service being completed and the next
+printing service being completed.
+
+The exponential distribution was selected because it can be used to model
+waiting times between events that occur randomly over time.
+
+**Data Collection**
+
+I, as an observer, quietly settled near the printing area from 14:09 to 15:08
+(2:09pm - 3:08pm) on October 1. A clock app from my phone was used for
+stopwatch, recording the duration between completed printing services. By the
+end of observing, a total of 35 data were collected. The observations were
+recorded in seconds using Excel and were later analyzed using R.
+
+The observations represent intervals between printing services rather than
+individual customer arrival times.
+
+The mean waiting time was calculated from the 35 recorded intervals. The
+rate parameter, lambda, was then estimated as the reciprocal of the
+mean waiting time.
+
+The exponential probability density function (PDF) and cumulative
+distribution function (CDF) were also calculated using R. In addition,
+the probabilities of a printing service occurring within one, two, and
+five minutes were determined.
+
+**Results**
+
+The analysis produced the following results:
+
+Number of observations: 35
+
+Mean waiting time: 100.4829 seconds
+
+Mean waiting time: 1.6747 minutes
+
+Standard deviation: 103.3149 seconds
+
+Lambda per second: 0.009952
+
+Lambda per minute: 0.597117
+
+Expected waiting time: 100.4829 seconds
+
+Expected waiting time: 1.6747 minutes
+ 
+
+The calculated probabilities were:
+ 
+Within 1 minute: 44.96%
+
+Within 2 minutes: 69.71%
+
+Within 5 minutes: 94.95%
+
+
+The coefficient of variation was 1.0282. This is close to 1, which is
+consistent with an important characteristic of the exponential
+distribution, where the theoretical coefficient of variation is 1.
+
+![Histogram with Exponential PDF]("D:\r fas\fa7\Part1 ggplot.jpg")
+
+![Q-Q Plot for Exponential Distribution]("D:\r fas\fa7\Part1 qqplot.jpg")
+
+**Interpretation**
+
+The results indicate that the average interval between completed printing
+services was approximately 100.48 seconds, or 1.67 minutes. Based on the
+fitted exponential model, there is a 44.96% probability that another
+printing service will be completed within one minute. This probability
+increases to 69.71% within two minutes and 94.95% within five minutes.
+
+These results suggest that although printing services generally occur
+within a relatively short interval, the actual waiting time can vary
+considerably. The standard deviation of 103.31 seconds is close to the
+mean waiting time, which is consistent with the variability expected from
+an exponential waiting-time model.
+
+The histogram shows that most printing service intervals were short, while
+only a few took much longer. The data are right-skewed, which is a common
+shape for an exponential distribution. The exponential curve generally follows
+the pattern of the observed data, so the model provides a reasonable
+approximation of the waiting times.
+
+The Q-Q plot shows that most of the observed values are reasonably close to
+the reference line, especially for the smaller and middle waiting times.
+However, the larger waiting times deviate from the line, with the longest
+interval being noticeably higher than the theoretical value. This means the
+exponential model is a reasonable approximation, but it does not perfectly fit
+the extreme observations.
+
+In practical terms, the results can provide a general estimate of how
+frequently printing services are completed at the library. This may help
+students form reasonable expectations about the time between completed
+printing jobs. However, the results should be interpreted as an estimate
+based on the observed period and may not represent all operating periods
+of the library.
+
+
+
+**Part 2. Applying Normal Distribution on Campus**
+
+**Scenario**
+
+The selected variable is the amount of time people spent in Freedom Park. The
+purpose of this observation was to examine how long people typically remained
+in the area and determine whether the observed data followed a pattern that
+could reasonably be described using a normal distribution.
+
+**Data Collection**
+
+Observations were conducted in the Freedom Park, a popular spot among the
+students, on October 1 from 15:19 to 16:56 (3:19pm - 4:56pm). I keep track of
+the records using Samsung Notes on my phone. Data include the number of people
+observed, their starting time to stay in that area, and the time they left.
+These were input in Excel to compute for the total minutes people spent.
+
+The observation was conducted without directly interacting with or
+disturbing the people. I quietly recorded the necessary information without
+intentionally focusing attention on individuals.
+
+A total of 53 people were represented in the dataset. When multiple
+people had the same recorded duration, the frequency was retained in the
+analysis so that each person contributed to the statistical calculations.
+
+The frequency of each recorded duration was organized into a frequency
+distribution table. The mean, standard deviation, and median were then
+calculated.
+
+The mean time spent was used as mu, while the standard deviation was
+used as sigma. The observed data were also compared with the
+theoretical normal distribution.
+
+The percentage of observations within one, two, and three standard
+deviations of the mean was calculated. An interquartile range (IQR)
+method was also used to identify potential outliers.
+
+**Results**
+
+The analysis produced the following descriptive statistics:
+
+Number of people: 53
+
+Mean time spent: 16.8868 minutes
+
+Standard deviation: 16.6001 minutes
+
+Median: 11 minutes
+
+Minimum: 1 minute
+
+Maximum: 60 minutes
+
+ 
+Frequency Distribution Table
+
+```{r}
+
+part2 <- read.csv("D:/r fas/fa7/data2.csv")
+part2 <- part2[1:38, 1:4]
+totalp <- sum(part2$PEOPLE)
+
+duration_data <- rep(
+  part2$MINUTES_SPENT,
+  part2$PEOPLE
+)
+
+frequency_table <- as.data.frame(table(duration_data))
+
+names(frequency_table) <- c(
+  "MINUTES_SPENT",
+  "FREQUENCY"
+)
+
+frequency_table$MINUTES_SPENT <-
+  as.numeric(as.character(frequency_table$MINUTES_SPENT))
+
+frequency_table$PERCENTAGE <-
+  frequency_table$FREQUENCY / totalp * 100
+
+print(frequency_table)
+
+```
+
+The percentage of observations within each standard-deviation range was:
+
+Within 1sd: 83.02%
+
+Within 2sd: 92.45%
+
+Within 3sd: 100.00%
+
+
+For comparison, the theoretical percentages for a perfectly normal
+distribution are approximately 68.27%, 95.45%, and 99.73% within one,
+two, and three standard deviations, respectively.
+
+![Histogram with Normal Distribution Curve]("D:\r fas\fa7\Part2 ggplot.jpg")
+
+![Box Plot]("D:\r fas\fa7\Part2 boxplot.jpg")
+
+**Distribution Shape and Symmetry**
+
+The distribution is not symmetric and is likely right-skewed. The mean
+of 16.89 minutes is greater than the median of 11 minutes. This difference
+suggests that the longer durations pull the mean toward the right side of
+the distribution.
+
+The observed data also contain several relatively long stays compared
+with the more frequent shorter stays. Therefore, the data do not appear
+to follow a perfectly normal distribution.
+
+**Outliers**
+
+Using the 1.5 × IQR rule, the first quartile (Q1) was 5 minutes and the
+third quartile (Q3) was 25 minutes. The IQR was therefore 20 minutes.
+
+The lower and upper bounds were calculated as -25 minutes and 55 minutes,
+respectively. Three observations were identified as outliers, all having
+a duration of 60 minutes.
+
+These observations indicate that a small number of people remained in the
+park substantially longer than most of the observed individuals.
+
+**Interpretation and Usefulness**
+
+The results show that people spent an average of approximately 16.89
+minutes in the campus park, although the relatively large standard
+deviation of 16.60 minutes indicates considerable variation in the amount
+of time spent there.
+
+The right-skewed shape suggests that shorter visits were more common,
+while a smaller number of people stayed for considerably longer periods.
+The three 60-minute observations contribute to the longer right tail of
+the distribution.
+
+The histogram indicates that time spent in Freedom Park is not normally
+distributed. Most individuals spent relatively short periods in the park,
+while a smaller number stayed considerably longer. The distribution is
+positively (right) skewed, with values extending to approximately 60 minutes.
+The normal distribution curve does not closely match the observed data.
+
+The box plot shows that the median time spent in Freedom Park was approximately
+10–11 minutes. The middle 50% of observations were roughly between 5 and 25
+minutes. The distribution is positively skewed, with a long upper tail. There
+is also an apparent high-value outlier at approximately 60 minutes, indicating
+that one observation involved a substantially longer stay than most visitors.
+
+The data may be useful for understanding how students and other campus
+users utilize the park. For example, the information could help provide
+an estimate of typical visit duration and could contribute to decisions
+regarding seating, space allocation, or other improvements to the area.
+However, because the observations were collected during a particular
+observation period, the results should not be assumed to represent every
+person who uses the campus park at all times.
+
+
+
+**Summary and Conclusion**
+
+The two parts demonstrate how probability distributions can be applied
+to campus-related observations. The printing-service data produced an
+average interval of approximately 1.67 minutes between completed services,
+with the exponential model estimating a 94.95% probability of another
+service occurring within five minutes. The campus-park data showed an
+average stay of approximately 16.89 minutes and a right-skewed
+distribution rather than a perfectly symmetric normal distribution.
+
+Overall, the analysis demonstrates how collected campus observations can
+be summarized and interpreted using probability and statistical methods.
