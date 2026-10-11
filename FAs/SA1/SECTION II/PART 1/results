@@ -1,4 +1,6 @@
 
+RESULTS AND INTERPRETATIONS
+
 > # SECTION II - 1
 > 
 > d <- read.csv("D:/r fas/sa 1/btcusd_1-min_data.csv")
@@ -150,3 +152,11 @@ Best-fitting candidate: Student_t
 > 
 > legend("topright", legend = names(nll),
 +        col = seq_along(nll), lwd = 2, cex = 0.8)
+
+
+
+The Student T distribution showed the lowest AIC among the four probability distributions.
+This suggests that using this method is better at returning Bitcoins compared to Logistics,
+Laplace, and Normal distribution. It is particularly useful for financial returns because
+it can account for heavier tails, meaning extreme price changes may occur more frequently
+than a normal distribution predicts.
