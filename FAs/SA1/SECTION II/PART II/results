@@ -1,0 +1,87 @@
+
+> # SECTION II - 2
+> 
+> d <- read.csv(
++   "D:/r fas/sa 1/Ethereum Historical Data.csv",
++   stringsAsFactors = FALSE,
++   check.names = FALSE
++ )
+> 
+> print(names(d))
+[1] "Date"     "Price"    "Open"     "High"     "Low"      "Vol."     "Change %"
+> print(head(d$Date, 10))
+ [1] "09/15/2026" "09/14/2026" "09/13/2026" "09/12/2026" "09/11/2026" "09/10/2026" "09/09/2026"
+ [8] "09/08/2026" "09/07/2026" "09/06/2026"
+> print(head(d$Price, 10))
+ [1] "2,398.66" "2,515.07" "2,477.86" "2,522.71" "2,516.04" "2,438.44" "2,468.60" "2,485.08" "2,489.91"
+[10] "2,514.96"
+> 
+> print(head(d$close))
+NULL
+> print(class(d$close))
+[1] "NULL"
+> print(nrow(d))
+[1] 3842
+> 
+> d$time <- as.Date(d$Date, format = "%m/%d/%Y")
+> d$close <- as.numeric(gsub(",", "", d$Price))
+> 
+> # Invalid Rows
+> 
+> d <- d[
++   !is.na(d$time) &
++     is.finite(d$close) &
++     d$close > 0, ]
+> 
+> # Sort Dates
+> 
+> d <- d[order(d$time), ]
+> d <- d[!duplicated(d$time), ]
+> 
+> # Selected Periods
+> 
+> d <- d[d$time >= as.Date("2015-08-07") &
++          d$time <= as.Date("2026-09-15"), ]
+> 
+> # Data Coverage
+> 
+> cat("Data Coverage:\n")
+Data Coverage:
+> print(range(d$time))
+[1] "2016-03-10" "2026-09-15"
+> cat("Price Observations:", nrow(d), "\n")
+Price Observations: 3842 
+> 
+> # Daily Log Returns
+> 
+> r <- diff(log(d$close))
+> r <- r[is.finite(r)]
+> cat("Number of valid returns:", length(r), "\n")
+Number of valid returns: 3841 
+> 
+> 
+> 
+> # Shapiro-Wilk Normality Test
+> 
+> if (length(r) < 3) {
++   stop("Insufficient valid returns for the Shapiro-Wilk test.")
++ }
+> 
+> if (length(r) > 5000) {
++   set.seed(123)
++   test_r <- sample(r, 5000)
++ } else {
++   test_r <- r
++ }
+> 
+> result <- shapiro.test(test_r)
+> 
+> cat("\nSHAPIRO-WILK TEST RESULTS\n")
+
+SHAPIRO-WILK TEST RESULTS
+> print(result)
+
+	Shapiro-Wilk normality test
+
+data:  test_r
+W = 0.91555, p-value < 2.2e-16
