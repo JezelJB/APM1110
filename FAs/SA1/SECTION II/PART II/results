@@ -85,3 +85,12 @@ SHAPIRO-WILK TEST RESULTS
 
 data:  test_r
 W = 0.91555, p-value < 2.2e-16
+> qqnorm(
++   test_r,
++   main = "Normal Q-Q Plot of Ethereum Returns",
++   xlab = "Theoretical Normal Quantiles",
++   ylab = "Sample Quantiles",
++   pch = 19
++ )
+> 
+> qqline(test_r, col = "red", lwd = 2)
