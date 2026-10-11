@@ -1,4 +1,6 @@
 
+RESULTS AND INTERPRETATIONS
+
 > # SECTION II - 2
 > 
 > d <- read.csv(
@@ -94,3 +96,14 @@ W = 0.91555, p-value < 2.2e-16
 + )
 > 
 > qqline(test_r, col = "red", lwd = 2)
+
+
+
+The Shapiro-Wilk test produced a W-statistic of 0.91555 and a p-value below 0.05.
+Therefore, we reject the null hypothesis that the Ethereum returns follow a normal
+distribution. This provides strong statistical evidence that the returns deviate
+from normality.
+
+The Q–Q plot shows that the points deviate significantly from the red reference line,
+particularly at both tails. The extreme negative and positive returns suggest
+heavy-tailed data and a departure from normality.
